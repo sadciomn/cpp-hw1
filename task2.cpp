@@ -36,10 +36,14 @@ int num(const char* a)
 
 int main(int argc, char* argv[])
 {
+    if (argc != 2)
+    {
+        return 1;
+    }
     int arrLen = num(argv[1]);
     int k;
     std::cin >> k;
-    int arr[arrLen];
+    int* arr = new int[arrLen];
 
     if (k > 0)
     {
@@ -65,7 +69,7 @@ int main(int argc, char* argv[])
             arr[i] = i + 1;
         }
     }
-    for (const auto& i : arr)
+    for (int i = 0; i < arrLen; i++)
     {
         std::cout << i << ' ';
     }
