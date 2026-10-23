@@ -40,37 +40,64 @@ int main(int argc, char* argv[])
     {
         return 1;
     }
-    int arrLen = num(argv[1]);
-    int k;
-    std::cin >> k;
-    int* arr = new int[arrLen];
 
-    if (k > 0)
+    int arr_len = num(argv[1]);
+
+    int* arr = new int[arr_len];
+    // fill array
+    for (int i = 0; i < arr_len; i++)
     {
-        for (int i = 0; i < arrLen; i++, k++)
+        std::cin >> arr[i];
+    }
+
+    int shift;
+    std::cin >> shift;
+
+    // normalize shift
+    shift = (shift < 0) ? ((shift % arr_len) + arr_len) : (shift % arr_len);
+
+    if (shift > 0)
+    {
+        int tmp;
+        int tmp1 = arr[0];
+        bool ord = false;
+
+        for (int i = 0; i < shift; i++)
         {
-            int index = (k % arrLen);
-            arr[index] = i + 1;
+            for (int j = 0; j < arr_len; j++)
+            {
+                if (!ord)
+                {
+                    tmp = arr[(j + i + 1) % arr_len];
+                    arr[(j + i + 1) % arr_len] = tmp1;
+                    ord = true;
+                }
+                else
+                {
+                    tmp1 = arr[(j + i + 1) % arr_len];
+                    arr[(j + i + 1) % arr_len] = tmp;
+                    ord = false;
+                }
+            }
         }
     }
-    else if (k < 0)
+    // print array vertically and horizontally
+    for (int i = 0; i < arr_len; i++)
     {
-        k += arrLen;
-        for (int i = 0; i < arrLen; i++, k++)
+        std::cout << arr[i] << std::endl;
+    }
+    for (int i = 0; i < arr_len; i++)
+    {
+        if (i == arr_len - 1)
         {
-            int index = (k % arrLen);
-            arr[index] = i + 1;
+            std::cout << arr[i];
+        }
+        else
+        {
+            std::cout << arr[i] << ' ';
         }
     }
-    else
-    {
-        for (int i = 0; i < arrLen; i++)
-        {
-            arr[i] = i + 1;
-        }
-    }
-    for (int i = 0; i < arrLen; i++)
-    {
-        std::cout << i << ' ';
-    }
+    std::cout << '\n';
+
+    delete[] arr;
 }

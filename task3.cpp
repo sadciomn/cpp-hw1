@@ -36,6 +36,10 @@ int num(const char* a)
 
 int main(int argc, char* argv[])
 {
+    if (argc != 2)
+    {
+        return 1;
+    }
     double res = 0;
     int size = num(argv[1]);
     double* arr = new double[size];
