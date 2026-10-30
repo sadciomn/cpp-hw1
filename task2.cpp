@@ -1,37 +1,25 @@
 #include <iostream>
 
-int pow(int a, int b)
-{
-    int tmp = a;
-    for (int i = 1; i < b; i++)
-    {
-        a *= tmp;
-    }
-    return (b == 0) ? 1 : a;
-}
-
-int strlen(const char* a)
-{
-    int aCount = 0;
-    for (int i = 0; a[i] != '\0'; i++)
-    {
-        if (a[i] != '+' and a[i] != '-')
-        {
-            aCount += 1;
-        }
-    }
-    return aCount;
-}
-
 int num(const char* a)
 {
-    int len = strlen(a);
     int num = 0;
-    for (int i = 0; i < len; i++)
+    for (int i = 0; a[i] != '\0'; i++)
     {
-        num += (a[i] - 48) * pow(10, (len - i - 1));
+        num = num * 10 + (a[i] - '0');
     }
     return num;
+}
+
+void arr_reverse(int* const arr, const int& start, const int& end)
+{
+    int tmp;
+
+    for (int l = start, r = end - 1; l < r; l++, r--)
+    {
+        tmp = arr[l];
+        arr[l] = arr[r];
+        arr[r] = tmp;
+    }
 }
 
 int main(int argc, char* argv[])
@@ -44,6 +32,7 @@ int main(int argc, char* argv[])
     int arr_len = num(argv[1]);
 
     int* arr = new int[arr_len];
+
     // fill array
     for (int i = 0; i < arr_len; i++)
     {
@@ -58,28 +47,9 @@ int main(int argc, char* argv[])
 
     if (shift > 0)
     {
-        int tmp;
-        int tmp1 = arr[0];
-        bool ord = false;
-
-        for (int i = 0; i < shift; i++)
-        {
-            for (int j = 0; j < arr_len; j++)
-            {
-                if (!ord)
-                {
-                    tmp = arr[(j + i + 1) % arr_len];
-                    arr[(j + i + 1) % arr_len] = tmp1;
-                    ord = true;
-                }
-                else
-                {
-                    tmp1 = arr[(j + i + 1) % arr_len];
-                    arr[(j + i + 1) % arr_len] = tmp;
-                    ord = false;
-                }
-            }
-        }
+        arr_reverse(arr, 0, arr_len);
+        arr_reverse(arr, 0, shift);
+        arr_reverse(arr, shift, arr_len);
     }
     // print array vertically and horizontally
     for (int i = 0; i < arr_len; i++)
